@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_clean_architecture_bloc/core/resources/data_state.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/get_image.dart';
+
+import '../../../../../../core/resources/data_state.dart';
+import '../../../../domain/entities/image.dart';
+import '../../../../domain/usecases/get_image.dart';
 
 part 'remote_images_event.dart';
 part 'remote_images_state.dart';

@@ -24,11 +24,13 @@ class _TheCatApiService implements TheCatApiService {
   Future<HttpResponse<List<ImageModel>>> getRandomImages({
     String? apiKey,
     int? limit,
+    bool? hasBreeds,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'api-key': apiKey,
+      r'api_key': apiKey,
       r'limit': limit,
+      r'has_breeds': hasBreeds,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

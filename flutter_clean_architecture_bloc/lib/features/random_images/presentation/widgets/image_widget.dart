@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
+import '../../data/models/breed.dart';
+import '../../data/models/image.dart';
+import '../../domain/entities/image.dart';
 
 class ImageWidget extends StatelessWidget {
   final ImageEntity? image;
@@ -42,7 +44,7 @@ class ImageInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
-            "${image!.id}",
+            "${image != null && image!.breeds != null ? image!.breeds![0].name : ""}",
             style: const TextStyle(
               fontFamily: 'Butler',
               fontWeight: FontWeight.w900,
@@ -50,8 +52,14 @@ class ImageInfo extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
-          Text('Width: ${image!.width}'),
-          Text('Height: ${image!.height}'),
+          Text('Life span: ${image != null && image!.breeds != null ? image!.breeds![0].lifeSpan : ""}'),
+          Expanded(
+            child: Text(
+              '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const Icon(Icons.favorite_outline),
         ],
       ),

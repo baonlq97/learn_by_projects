@@ -4,9 +4,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture_bloc/core/constants/constants.dart';
 import 'package:flutter_clean_architecture_bloc/core/resources/data_state.dart';
+import 'package:flutter_clean_architecture_bloc/core/util/extensions/image_mapper_extension.dart';
 import 'package:flutter_clean_architecture_bloc/env/env.dart';
 import 'package:flutter_clean_architecture_bloc/features/random_images/data/data_sources/remote/the_cat_api_service.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/data/models/image.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
 import 'package:flutter_clean_architecture_bloc/features/random_images/domain/repository/image_repository.dart';
 
 class ImageRepositoryImpl implements ImageRepository {
@@ -15,15 +16,17 @@ class ImageRepositoryImpl implements ImageRepository {
   ImageRepositoryImpl(this._theCatApiService);
 
   @override
-  Future<DataState<List<ImageModel>>> getRandomImages() async {
+  Future<DataState<List<ImageEntity>>> getRandomImages() async {
     try {
       final httpResponse = await _theCatApiService.getRandomImages(
         apiKey: Env.theCatApiKey,
-        limit: limitImage
+        limit: limitImage,
+        hasBreeds: true
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data);
+        final entities = httpResponse.data.map((model) => model.toEntity()).toList();
+        return DataSuccess(entities);
       } else {
         return DataFailed(
           DioException(

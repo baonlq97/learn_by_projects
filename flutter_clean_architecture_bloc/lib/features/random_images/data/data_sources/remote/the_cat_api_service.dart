@@ -1,4 +1,5 @@
-import 'package:flutter_clean_architecture_bloc/core/constants/constants.dart';
+import '../../../../../core/constants/constants.dart';
+import '../../../domain/entities/image.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -11,7 +12,8 @@ abstract class TheCatApiService {
 
   @GET('/images/search')
   Future<HttpResponse<List<ImageModel>>> getRandomImages({
-    @Query('api-key') String? apiKey,
+    @Query('api_key') String? apiKey,
     @Query('limit') int? limit,
+    @Query('has_breeds') bool? hasBreeds
   });
 }
