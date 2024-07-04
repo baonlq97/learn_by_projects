@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/data/data_sources/local/image_converter.dart';
 import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/breed.dart';
 
 class ImageEntity extends Equatable {
@@ -9,15 +11,15 @@ class ImageEntity extends Equatable {
   final String? url;
   final int? width;
   final int? height;
+  @TypeConverters([ImageConverter])
   final List<BreedEntity>? breeds;
 
-  const ImageEntity({
-    required this.id,
-    required this.url,
-    required this.width,
-    required this.height,
-    required this.breeds
-  });
+  const ImageEntity(
+      {required this.id,
+      required this.url,
+      required this.width,
+      required this.height,
+      required this.breeds});
 
   @override
   List<Object?> get props => [id, url, width, height, breeds];
@@ -28,21 +30,23 @@ class ImageEntity extends Equatable {
       'url': url,
       'width': width,
       'height': height,
-      'breed': breeds!.map((x) => x.toMap()).toList(),
+      'breeds': breeds!.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory ImageEntity.fromMap(Map<String, dynamic> map) {
+  factory ImageEntity.fromJson(Map<String, dynamic> map) {
     return ImageEntity(
       id: map['id'] != null ? map['id'] as String : null,
       url: map['url'] != null ? map['url'] as String : null,
       width: map['width'] != null ? map['width'] as int : null,
       height: map['height'] != null ? map['height'] as int : null,
-      breeds: List<BreedEntity>.from((map['breed'] as List<int>).map<BreedEntity>((x) => BreedEntity.fromMap(x as Map<String,dynamic>),),),
+      breeds: List<BreedEntity>.from(
+        (map['breeds'] as List<dynamic>).map<BreedEntity>(
+          (x) => BreedEntity.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
-
-  factory ImageEntity.fromJson(String source) => ImageEntity.fromMap(json.decode(source) as Map<String, dynamic>);
 }

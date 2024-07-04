@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/save_image.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/presentation/bloc/image/local/local_images_bloc.dart';
+import 'package:flutter_clean_architecture_bloc/injection_container.dart';
 import '../../data/models/breed.dart';
 import '../../data/models/image.dart';
 import '../../domain/entities/image.dart';
@@ -37,32 +41,53 @@ class ImageInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            "${image != null && image!.breeds != null ? image!.breeds![0].name : ""}",
-            style: const TextStyle(
-              fontFamily: 'Butler',
-              fontWeight: FontWeight.w900,
-              fontSize: 18,
-              color: Colors.black87,
+    return BlocBuilder<LocalImagesBloc, LocalImagesState>(
+      builder: (context, state) {
+        if (state is LocalImagesDone) {
+          // Show Snackbar when image is saved successfully
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Image saved successfully'),
+              duration: Duration(seconds: 2),
             ),
+          );
+        }
+        return Expanded(
+          flex: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "${image != null && image!.breeds != null ? image!.breeds![0].name : ""}",
+                style: const TextStyle(
+                  fontFamily: 'Butler',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              Text(
+                  'Life span: ${image != null && image!.breeds != null ? image!.breeds![0].lifeSpan : ""}'),
+              Expanded(
+                child: Text(
+                  '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  sl<LocalImagesBloc>().add(SaveImage(image!));
+                },
+                child: const Icon(
+                  Icons.favorite_outline,
+                ),
+              ),
+            ],
           ),
-          Text('Life span: ${image != null && image!.breeds != null ? image!.breeds![0].lifeSpan : ""}'),
-          Expanded(
-            child: Text(
-              '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Icon(Icons.favorite_outline),
-        ],
-      ),
+        );
+      },
     );
   }
 }

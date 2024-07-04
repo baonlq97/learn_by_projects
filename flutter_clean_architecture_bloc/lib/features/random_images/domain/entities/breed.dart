@@ -29,7 +29,7 @@ class BreedEntity extends Equatable {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'lifeSpan': lifeSpan,
+      'life_span': lifeSpan,
       'description': description,
     };
   }
@@ -38,7 +38,7 @@ class BreedEntity extends Equatable {
     return BreedEntity(
       id: map['id'] != null ? map['id'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
-      lifeSpan: map['lifeSpan'] != null ? map['lifeSpan'] as String : null,
+      lifeSpan: map['life_span'] != null ? map['life_span'] as String : null,
       description: map['description'] != null ? map['description'] as String : null,
     );
   }

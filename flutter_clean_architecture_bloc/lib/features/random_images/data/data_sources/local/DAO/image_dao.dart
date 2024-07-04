@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
-import '../../../models/image.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/data/models/image.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
 
 @dao
 abstract class ImageDao {
@@ -9,6 +10,6 @@ abstract class ImageDao {
   @delete
   Future<void> deleteImage(ImageModel image);
 
-  @Query("SELECT * FROM image")
+  @Query("SELECT * FROM images")
   Future<List<ImageModel>> getImages();
 }

@@ -4,12 +4,12 @@ import 'package:floor/floor.dart';
 import '../../models/breed.dart';
 import '../../../domain/entities/breed.dart';
 
-class ImageConverter extends TypeConverter<List<BreedModel>?, String> {
+class ImageConverter extends TypeConverter<List<BreedEntity>?, String> {
   @override
-  List<BreedModel>? decode(String databaseValue) {
+  List<BreedEntity>? decode(String databaseValue) {
     final List<dynamic> jsonList = json.decode(databaseValue);
     return jsonList
-        .map((json) => BreedModel(
+        .map((json) => BreedEntity(
             id: json['id'],
             name: json['name'],
             lifeSpan: json['life_span'],
@@ -18,7 +18,7 @@ class ImageConverter extends TypeConverter<List<BreedModel>?, String> {
   }
 
   @override
-  String encode(List<BreedModel>? value) {
+  String encode(List<BreedEntity>? value) {
     return json.encode(value!
         .map((e) => {
               'id': e.id,

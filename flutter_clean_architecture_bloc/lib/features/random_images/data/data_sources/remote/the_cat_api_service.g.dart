@@ -21,7 +21,7 @@ class _TheCatApiService implements TheCatApiService {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<ImageModel>>> getRandomImages({
+  Future<HttpResponse<List<ImageEntity>>> getRandomImages({
     String? apiKey,
     int? limit,
     bool? hasBreeds,
@@ -36,7 +36,7 @@ class _TheCatApiService implements TheCatApiService {
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<ImageModel>>>(Options(
+        _setStreamType<HttpResponse<List<ImageEntity>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -53,7 +53,7 @@ class _TheCatApiService implements TheCatApiService {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => ImageModel.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => ImageEntity.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture_bloc/features/random_images/presentation/bloc/image/local/local_images_bloc.dart';
 import 'config/routes/app_routes.dart';
 import 'config/theme/app_themes.dart';
 import 'features/random_images/presentation/bloc/image/remote/remote_images_bloc.dart';
@@ -17,8 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RemoteImagesBloc>(
-      create: (context) => sl()..add(GetImages()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RemoteImagesBloc>(
+          create: (context) => sl()..add(const GetImages()),
+        ),
+        BlocProvider<LocalImagesBloc>(
+          create: (context) => sl(),
+        ),
+      ],
       child: MaterialApp(
           theme: theme(),
           debugShowCheckedModeBanner: false,

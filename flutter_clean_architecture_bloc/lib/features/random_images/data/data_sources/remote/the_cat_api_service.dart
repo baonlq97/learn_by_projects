@@ -11,7 +11,7 @@ abstract class TheCatApiService {
   factory TheCatApiService(Dio dio) = _TheCatApiService;
 
   @GET('/images/search')
-  Future<HttpResponse<List<ImageModel>>> getRandomImages({
+  Future<HttpResponse<List<ImageEntity>>> getRandomImages({
     @Query('api_key') String? apiKey,
     @Query('limit') int? limit,
     @Query('has_breeds') bool? hasBreeds

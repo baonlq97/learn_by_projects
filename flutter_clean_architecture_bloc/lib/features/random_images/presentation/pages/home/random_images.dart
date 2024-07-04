@@ -25,7 +25,7 @@ class RandomImages extends StatelessWidget {
       ),
       actions: [
           GestureDetector(
-            onTap: () => _onShowSavedArticlesViewTapped(context),
+            onTap: () => _onShowSavedImagesViewTapped(context),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
               child: Icon(Icons.bookmark, color: Colors.black),
@@ -57,7 +57,7 @@ class RandomImages extends StatelessWidget {
     );
   }
   
-  _onShowSavedArticlesViewTapped(context) {
+  _onShowSavedImagesViewTapped(context) {
     Navigator.pushNamed(context, '/saved_images');
   }
 }

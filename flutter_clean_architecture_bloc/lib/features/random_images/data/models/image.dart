@@ -9,61 +9,74 @@ import 'package:flutter_clean_architecture_bloc/features/random_images/data/data
 import 'package:flutter_clean_architecture_bloc/features/random_images/data/models/breed.dart';
 import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
 
-@Entity(tableName: 'images', primaryKeys: ['id'])
-@TypeConverters([ImageConverter])
-class ImageModel extends Equatable {
-  final String? id;
-  final String? url;
-  final int? width;
-  final int? height;
-  final List<BreedModel>? breeds;
 
+@Entity(tableName: 'images', primaryKeys: ['id'])
+class ImageModel extends ImageEntity {
   const ImageModel({
-    this.id,
-    this.url,
-    this.width,
-    this.height,
-    required this.breeds,
+    required super.id,
+    required super.url,
+    required super.width,
+    required super.height,
+    required super.breeds,
   });
 
-  @override
-  List<Object> get props {
-    return [
-      id!,
-      url!,
-      width!,
-      height!,
-      breeds!,
-    ];
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'url': url,
-      'width': width,
-      'height': height,
-      'breeds': breeds?.map((x) => x.toMap()).toList(),
-    };
-  }
-
-  factory ImageModel.fromMap(Map<String, dynamic> map) {
+  factory ImageModel.fromEntity(ImageEntity entity) {
     return ImageModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      url: map['url'] != null ? map['url'] as String : null,
-      width: map['width'] != null ? map['width'] as int : null,
-      height: map['height'] != null ? map['height'] as int : null,
-      breeds: map['breeds'] != null
-        ? (map['breeds'] as List<dynamic>)
-            .map((breed) => BreedModel.fromMap(breed as Map<String, dynamic>))
-            .toList()
-        : null,
+      id: entity.id,
+      url: entity.url,
+      width: entity.width,
+      height: entity.height,
+      breeds: entity.breeds,
     );
   }
 
-  factory ImageModel.fromJson(Map<String, dynamic> json) =>
-      ImageModel.fromMap(json);
-  
+  ImageEntity toEntity() {
+    return ImageEntity(
+      id: id,
+      url: url,
+      width: width,
+      height: height,
+      breeds: breeds!.map((breed) => (breed as BreedModel).toEntity()).toList(),
+    );
+  }
 
-  String toJson() => json.encode(toMap());
+  // @override
+  // List<Object> get props {
+  //   return [
+  //     id!,
+  //     url!,
+  //     width!,
+  //     height!,
+  //     breeds!,
+  //   ];
+  // }
+
+  // Map<String, dynamic> toMap() {
+  //   return <String, dynamic>{
+  //     'id': id,
+  //     'url': url,
+  //     'width': width,
+  //     'height': height,
+  //     'breeds': breeds?.map((x) => x.toMap()).toList(),
+  //   };
+  // }
+
+  // factory ImageModel.fromMap(Map<String, dynamic> map) {
+  //   return ImageModel(
+  //     id: map['id'] != null ? map['id'] as String : null,
+  //     url: map['url'] != null ? map['url'] as String : null,
+  //     width: map['width'] != null ? map['width'] as int : null,
+  //     height: map['height'] != null ? map['height'] as int : null,
+  //     breeds: map['breeds'] != null
+  //       ? (map['breeds'] as List<dynamic>)
+  //           .map((breed) => BreedModel.fromMap(breed as Map<String, dynamic>))
+  //           .toList()
+  //       : null,
+  //   );
+  // }
+
+  // factory ImageModel.fromJson(Map<String, dynamic> json) =>
+  //     ImageModel.fromMap(json);
+
+  // String toJson() => json.encode(toMap());
 }

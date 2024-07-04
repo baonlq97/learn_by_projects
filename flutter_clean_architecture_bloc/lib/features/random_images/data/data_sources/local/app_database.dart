@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:floor/floor.dart';
 import 'DAO/image_dao.dart';

@@ -149,7 +149,7 @@ class _$ImageDao extends ImageDao {
 
   @override
   Future<List<ImageModel>> getImages() async {
-    return _queryAdapter.queryList('SELECT * FROM image',
+    return _queryAdapter.queryList('SELECT * FROM images',
         mapper: (Map<String, Object?> row) => ImageModel(
             id: row['id'] as String?,
             url: row['url'] as String?,
