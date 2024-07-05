@@ -1,20 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/save_image.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/presentation/bloc/image/local/local_images_bloc.dart';
-import 'package:flutter_clean_architecture_bloc/injection_container.dart';
+import '../../domain/usecases/save_image.dart';
+import '../bloc/image/local/local_images_bloc.dart';
+import '../../../../injection_container.dart';
 import '../../data/models/breed.dart';
 import '../../data/models/image.dart';
 import '../../domain/entities/image.dart';
 
-class ImageWidget extends StatelessWidget {
+class ImageWidget extends StatefulWidget {
   final ImageEntity? image;
   const ImageWidget({
     super.key,
     this.image,
   });
 
+  @override
+  State<ImageWidget> createState() => _ImageWidgetState();
+}
+
+class _ImageWidgetState extends State<ImageWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,8 +28,8 @@ class ImageWidget extends StatelessWidget {
       height: MediaQuery.of(context).size.width / 2.2,
       child: Row(
         children: [
-          CachedImage(image: image),
-          ImageInfo(image: image),
+          CachedImage(image: widget.image),
+          ImageInfo(image: widget.image),
         ],
       ),
     );
@@ -41,53 +46,52 @@ class ImageInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocalImagesBloc, LocalImagesState>(
-      builder: (context, state) {
-        if (state is LocalImagesDone) {
-          // Show Snackbar when image is saved successfully
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Image saved successfully'),
-              duration: Duration(seconds: 2),
+    return Expanded(
+      flex: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            "${image != null && image!.breeds != null ? image!.breeds![0].name : ""}",
+            style: const TextStyle(
+              fontFamily: 'Butler',
+              fontWeight: FontWeight.w900,
+              fontSize: 18,
+              color: Colors.black87,
             ),
-          );
-        }
-        return Expanded(
-          flex: 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "${image != null && image!.breeds != null ? image!.breeds![0].name : ""}",
-                style: const TextStyle(
-                  fontFamily: 'Butler',
-                  fontWeight: FontWeight.w900,
-                  fontSize: 18,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                  'Life span: ${image != null && image!.breeds != null ? image!.breeds![0].lifeSpan : ""}'),
-              Expanded(
-                child: Text(
-                  '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  sl<LocalImagesBloc>().add(SaveImage(image!));
-                },
-                child: const Icon(
-                  Icons.favorite_outline,
-                ),
-              ),
-            ],
           ),
-        );
-      },
+          Text(
+              'Life span: ${image != null && image!.breeds != null ? image!.breeds![0].lifeSpan : ""}'),
+          Expanded(
+            child: Text(
+              '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(height: 20,),
+          BlocBuilder<LocalImagesBloc, LocalImagesState>(
+            builder: (_, state) {
+              final savedImageIds = state.images?.map((e) => e.id).toSet();
+              bool isSaved = savedImageIds != null && savedImageIds.contains(image!.id);
+              return GestureDetector(
+                onTap: () {
+                  if (!isSaved) {
+                    context.read<LocalImagesBloc>().add(SaveImage(image!));
+                  } else {
+                    context.read<LocalImagesBloc>().add(DeleteImage(image!));
+                  }
+                },
+                child: Icon(
+                  isSaved ? Icons.favorite : Icons.favorite_outline,
+                  color: isSaved ? Colors.red : Colors.grey,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

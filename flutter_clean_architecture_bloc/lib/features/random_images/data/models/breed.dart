@@ -28,31 +28,4 @@ class BreedModel extends BreedEntity {
       description: description,
     );
   }
-
-  // @override
-  // List<Object> get props => [id!, name!, lifeSpan!, description!];
-
-  // Map<String, dynamic> toMap() {
-  //   return <String, dynamic>{
-  //     'id': id,
-  //     'name': name,
-  //     'lifeSpan': lifeSpan,
-  //     'description': description,
-  //   };
-  // }
-
-  // factory BreedModel.fromMap(Map<String, dynamic> map) {
-  //   return BreedModel(
-  //     id: map['id'] != null ? map['id'] as String : null,
-  //     name: map['name'] != null ? map['name'] as String : null,
-  //     lifeSpan: map['lifeSpan'] != null ? map['lifeSpan'] as String : null,
-  //     description:
-  //         map['description'] != null ? map['description'] as String : null,
-  //   );
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory BreedModel.fromJson(String source) =>
-  //     BreedModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

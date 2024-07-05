@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/data/data_sources/local/app_database.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/delete_image.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/get_saved_images.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/usecases/save_image.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/presentation/bloc/image/local/local_images_bloc.dart';
+import 'features/random_images/data/data_sources/local/app_database.dart';
+import 'features/random_images/domain/usecases/delete_image.dart';
+import 'features/random_images/domain/usecases/get_saved_images.dart';
+import 'features/random_images/domain/usecases/save_image.dart';
+import 'features/random_images/presentation/bloc/image/local/local_images_bloc.dart';
 import 'features/random_images/data/data_sources/remote/the_cat_api_service.dart';
 import 'features/random_images/data/repository/image_repository_impl.dart';
 import 'features/random_images/domain/repository/image_repository.dart';

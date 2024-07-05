@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/image/local/local_images_bloc.dart';
 import '../../data/models/breed.dart';
 import '../../data/models/image.dart';
 import '../../domain/entities/image.dart';
 
-class ImageWidget extends StatelessWidget {
+class SavedImageWidget extends StatelessWidget {
   final ImageEntity? image;
-  const ImageWidget({
+  const SavedImageWidget({
     super.key,
     this.image,
   });
@@ -59,6 +61,15 @@ class ImageInfo extends StatelessWidget {
               '${image != null && image!.breeds != null ? image!.breeds![0].description : ""}',
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.read<LocalImagesBloc>().add(DeleteImage(image!));
+            },
+            child: const Icon(
+              Icons.favorite,
+              color: Colors.red,
             ),
           ),
         ],

@@ -1,6 +1,6 @@
-import 'package:flutter_clean_architecture_bloc/core/usecase/usecase.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/entities/image.dart';
-import 'package:flutter_clean_architecture_bloc/features/random_images/domain/repository/image_repository.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/image.dart';
+import '../repository/image_repository.dart';
 
 class DeleteImageUseCase extends Usecase<void, ImageEntity> {
   final ImageRepository _imageRepository;

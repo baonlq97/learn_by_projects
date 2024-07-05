@@ -46,6 +46,7 @@ dependencies:
   dio: ^5.4.3+1
   envied: ^0.5.4+1
   sqflite: ^2.3.3+1
+  bloc: ^8.1.4
 
 dev_dependencies:
   flutter_test:

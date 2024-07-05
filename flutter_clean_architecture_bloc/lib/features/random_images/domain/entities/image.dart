@@ -13,13 +13,15 @@ class ImageEntity extends Equatable {
   final int? height;
   @TypeConverters([ImageConverter])
   final List<BreedEntity>? breeds;
+  // bool isSaved;
 
-  const ImageEntity(
-      {required this.id,
-      required this.url,
-      required this.width,
-      required this.height,
-      required this.breeds});
+  ImageEntity({
+    required this.id,
+    required this.url,
+    required this.width,
+    required this.height,
+    required this.breeds,
+  });
 
   @override
   List<Object?> get props => [id, url, width, height, breeds];

@@ -28,20 +28,21 @@ class LocalImagesBloc extends Bloc<LocalImagesEvent, LocalImagesState> {
     on<DeleteImage>(onDeleteImage);
   }
 
-  void onGetSavedImages(LocalImagesEvent event, Emitter<LocalImagesState> emit) async {
+  void onGetSavedImages(
+      GetSavedImages event, Emitter<LocalImagesState> emit) async {
     final images = await _getSavedImagesUseCase();
     emit(LocalImagesDone(images));
   }
 
-  void onSaveImage(LocalImagesEvent saveImage, Emitter<LocalImagesState> emit) async {
+  void onSaveImage(SaveImage saveImage, Emitter<LocalImagesState> emit) async {
     await _saveImageUseCase(params: saveImage.entity);
     final images = await _getSavedImagesUseCase();
-    emit(LocalImagesDone(images));
+    emit(LocalImageSaveSuccessfully(images));
   }
 
-  void onDeleteImage(LocalImagesEvent deleteImage, Emitter<LocalImagesState> emit) async {
+  void onDeleteImage(DeleteImage deleteImage, Emitter<LocalImagesState> emit) async {
     await _deleteImageUseCase(params: deleteImage.entity);
     final images = await _getSavedImagesUseCase();
-    emit(LocalImagesDone(images));
+    emit(LocalImageDeleteSuccessfully(images));
   }
 }

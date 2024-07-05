@@ -5,7 +5,7 @@ sealed class LocalImagesEvent extends Equatable {
   const LocalImagesEvent({this.entity});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [entity!];
 }
 
 class GetSavedImages extends LocalImagesEvent {
@@ -18,8 +18,4 @@ class SaveImage extends LocalImagesEvent {
 
 class DeleteImage extends LocalImagesEvent {
   const DeleteImage(ImageEntity entity) : super(entity: entity);
-}
-
-class IsSavedImage extends LocalImagesEvent {
-  const IsSavedImage();
 }

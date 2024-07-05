@@ -21,3 +21,7 @@ final class RemoteImagesDone extends RemoteImagesState {
 final class RemoteImagesError extends RemoteImagesState {
   const RemoteImagesError(DioException dioException) : super(dioException: dioException);
 }
+
+final class RemoteImagesSaved extends RemoteImagesState {
+  const RemoteImagesSaved();
+}
